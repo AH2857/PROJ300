@@ -24,8 +24,10 @@ public class simple_quad : MonoBehaviour
         // piloting:
         // receive vec3 target coords
         // difference between current coords and target coords in each x and z axis. 
+        // gain height or lose height or stay the same
         
-        
+        // current vec3 coords
+        // 
 
 
         // use trig to calculate pitch and roll angles (capped at maximums) 

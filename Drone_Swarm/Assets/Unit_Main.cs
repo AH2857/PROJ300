@@ -5,24 +5,27 @@ using UnityEngine;
 public class Unit_Main : MonoBehaviour
 {
     public GameObject ThisUnit;
-    
+
+    public GameObject UnitFrame;
+    public Transform UnitCentre;
+
     // --- Sensors ---
 
     // Drag and drop slots in Unity Inspector for each position a sensor can be placed at
     public GameObject NoseTipSensor;            // A: Slot for Sensor right on nose of the unit
-    //public GameObject UnderNoseSensor;     // B: Slot for Sensor hanging under unit nose
-    //public GameObject LPodSensor;               // C: Slot for Left Sensor pod, under wing or on side
-    //public GameObject RPodSensor;               // D: Slot for Right Sensor pod, under wing or on side
-    //public GameObject TailSensor;               // E: Slot for Sensor on the back of the unit
-    //public GameObject TopSensor;                // F: Slot for Sensor on top of the unit body
+    public GameObject UnderNoseSensor;          // B: Slot for Sensor hanging under unit nose
+    public GameObject LPodSensor;               // C: Slot for Left Sensor pod, under wing or on side
+    public GameObject RPodSensor;               // D: Slot for Right Sensor pod, under wing or on side
+    public GameObject TailSensor;               // E: Slot for Sensor on the back of the unit
+    public GameObject TopSensor;                // F: Slot for Sensor on top of the unit body
 
     // Transforms describing the position and rotation of the Sensor slots relative to the Unit's Transform
-    public Transform NoseTipSlot;        // XYZ 0 0 +1.5
-    // Transform UnderNoseTransform;      // XYZ 0 -0.5 1
-    // Transform LPodTransform;           // XYZ -0.5 -0.5 0
-    // Transform RPodTransform;           // XYZ 0.5 -0.5 0
-    // Transform TailTransform;           // XYZ 0 0 -1.5
-    // Transform TopTransform;            // XYZ 0 0.75 0 
+    public Transform NoseTipSlot;               // XYZ 0        0       1.5
+    public Transform UnderNoseSlot;             // XYZ 0        -0.5    1
+    public Transform LPodSlot;                  // XYZ -0.5     -0.5    0
+    public Transform RPodSlot;                  // XYZ 0.5      -0.5    0
+    public Transform TailSlot;                  // XYZ 0        0       -1.5
+    public Transform TopSlot;                   // XYZ 0        0.75    0 
 
     // --- Setup Scripts --- 
 
@@ -32,7 +35,7 @@ public class Unit_Main : MonoBehaviour
     // --- sensor instantiation and setup function ---
     // etc
 
-    void SensorSetup(GameObject gameObject, Transform transform)
+    void ComponentSetup(GameObject gameObject, Transform transform)
     {
         Instantiate(gameObject, ThisUnit.transform, false);
         gameObject.transform.localPosition = transform.position;
@@ -43,17 +46,18 @@ public class Unit_Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // instantiate each Sensor object, at the right relative location
+        // instantiate each component object, at the right relative location
+        ComponentSetup(UnitFrame, UnitCentre);
+        ComponentSetup(NoseTipSensor, NoseTipSlot);
+        ComponentSetup(UnderNoseSensor, UnderNoseSlot);
+        ComponentSetup(LPodSensor,LPodSlot);
+        ComponentSetup(RPodSensor,RPodSlot);
+        ComponentSetup(TailSensor,TailSlot);
+        ComponentSetup(TopSensor,TopSlot);
 
-        //turn this into a function
-        Instantiate(NoseTipSensor, ThisUnit.transform, false);
-        NoseTipSensor.transform.localPosition = NoseTipSlot.position;
-        NoseTipSensor.transform.localRotation = NoseTipSlot.rotation;
-
-        SensorSetup(NoseTipSensor, NoseTipSlot);
-
-        // currently just instantiating at 000 of parent hmmmm
-                
+        // replace with a system where components are added in Unity inspector instead of being instantiated at run time. 
+        // because this is making the spawner shit the bed
+                               
     }
 
     // Update is called once per frame
