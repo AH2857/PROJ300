@@ -13,13 +13,10 @@ public class RaySensor : MonoBehaviour
     void FireRay(float MaxDistance)
     {
         ray = new Ray(transform.position, transform.forward);
-        
-
         Physics.Raycast(ray.origin, ray.direction, out hitData, MaxDistance);
         //Debug.DrawRay(ray.origin, ray.direction * MaxDistance);
     }
-    
-
+      
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +27,7 @@ public class RaySensor : MonoBehaviour
     void Update()
     {
         FireRay(RayRange);
-        if (hitData.collider.tag == "Unit") 
+        if (hitData.collider.tag == "Obstacle") 
         {
             if (hitData.distance < avoidDist)
             {
@@ -45,10 +42,6 @@ public class RaySensor : MonoBehaviour
                 Debug.DrawRay(ray.origin, ray.direction * hitData.distance, Color.white);
             }
         }
-        //else
-        //{
-        //    Debug.DrawRay(ray.origin, ray.direction * RayRange, Color.white);
-        //}
 
     }
 }

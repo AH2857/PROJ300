@@ -352,9 +352,11 @@
 "Assets/Simple Behaviours/CurvyPieceOfWood.cs"
 "Assets/Simple Behaviours/FreakyCircle.cs"
 "Assets/Simple Behaviours/MoveForward.cs"
+"Assets/Simple Behaviours/Phys1.cs"
 "Assets/Simple Behaviours/RaySensor.cs"
 "Assets/UnitManager.cs"
 "Assets/Unit_Main.cs"
+"Assets/Walls.cs"
 "Assets/zzz Archive/DefaultUnit.cs"
 "Assets/zzz Archive/Unit.cs"
 -langversion:9.0

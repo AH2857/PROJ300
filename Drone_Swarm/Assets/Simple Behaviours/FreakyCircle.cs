@@ -11,7 +11,7 @@ public class FreakyCircle : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Unit"))
+        if (other.CompareTag("Obstacle"))
         {
             print(other.gameObject.transform.position);
             //newX = other.gameObject.transform.position.x;
