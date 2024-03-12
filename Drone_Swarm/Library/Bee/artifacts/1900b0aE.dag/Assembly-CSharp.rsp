@@ -346,6 +346,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Components/Sensors/greg.cs"
+"Assets/Environment Setup/Walls.cs"
 "Assets/Motion Scripts/MotionPseudo.cs"
 "Assets/Motion Scripts/simple_boid.cs"
 "Assets/Motion Scripts/simple_quad.cs"
@@ -356,7 +357,6 @@
 "Assets/Simple Behaviours/RaySensor.cs"
 "Assets/UnitManager.cs"
 "Assets/Unit_Main.cs"
-"Assets/Walls.cs"
 "Assets/zzz Archive/DefaultUnit.cs"
 "Assets/zzz Archive/Unit.cs"
 -langversion:9.0

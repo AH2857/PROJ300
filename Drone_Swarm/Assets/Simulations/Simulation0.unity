@@ -1039,6 +1039,9 @@ MonoBehaviour:
   width: 5
   height: 1
   depth: 5
+  seperation: 3
+  minRot: {x: 0, y: -90, z: 0}
+  maxRot: {x: 0, y: 90, z: 0}
 --- !u!4 &1390547840
 Transform:
   m_ObjectHideFlags: 0
@@ -1072,6 +1075,9 @@ MonoBehaviour:
   width: 5
   height: 1
   depth: 5
+  seperation: 3
+  minRot: {x: 0, y: -90, z: 0}
+  maxRot: {x: 0, y: 90, z: 0}
 --- !u!1 &1607847501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,14 +1382,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897882908}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 0, z: -59.2}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 60, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &2086261726
 GameObject:
   m_ObjectHideFlags: 0

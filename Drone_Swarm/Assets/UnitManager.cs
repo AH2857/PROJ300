@@ -17,9 +17,12 @@ public class UnitManager : MonoBehaviour
     // Unit formation spawned 
     public int width = 10;
     public int height = 1;
-    public int depth = 5; 
+    public int depth = 5;
+    public float seperation = 1;
 
-
+    public Vector3 minRot;
+    public Vector3 maxRot;
+    Vector3 randRot;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +39,10 @@ public class UnitManager : MonoBehaviour
             {
                 for (int z=0; z<depth; ++z)
                 {
-                    Instantiate(spawnedUnit, new Vector3(x, y, z), Quaternion.identity); //Instantiate a cube of units, x by y by z units in each axis
+                    //Instantiate(spawnedUnit, new Vector3(x, y, z), Quaternion.identity); //Instantiate a cube of units, x by y by z units in each axis
+
+                    randRot = new Vector3(Random.Range(minRot.x, maxRot.x), Random.Range(minRot.y, maxRot.y), Random.Range(minRot.z, maxRot.z));
+                    Instantiate(spawnedUnit, new Vector3(x * seperation, y * seperation, z * seperation), Quaternion.FromToRotation(Vector3.up, randRot));
                     // Instantiate(spawnedUnit, new Vector3(x, y, z), Random.rotation); //Instantiate a cube of units, x by y by z units in each axis         
                 }
             }
