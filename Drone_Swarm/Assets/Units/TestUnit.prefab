@@ -157,9 +157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da21cf386683ac7468f97c40f372b85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayRange: 40
+  RayRange: 20
   aggression: 500
-  avoidDist: 10
+  avoidDist: 15
 --- !u!136 &8669707972046454814
 CapsuleCollider:
   m_ObjectHideFlags: 0

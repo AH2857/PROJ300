@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnedUnit: {fileID: 9001146043148565579, guid: 414e43f10e056a94ba5f7308d55f2cee, type: 3}
   Environment: {fileID: 699057921753768898, guid: f204d1c16b879114f8fcedf19823fa58, type: 3}
-  SimCentre: {x: 0, y: 0, z: 0}
+  SpawnCentre: {x: -5, y: 0, z: -5}
   width: 5
   height: 1
   depth: 5
@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnedUnit: {fileID: 9001146043148565579, guid: bf26baa800a54d04d879fbf695caffc5, type: 3}
   Environment: {fileID: 397642545}
-  SimCentre: {x: 0, y: 0, z: 0}
+  SpawnCentre: {x: 0, y: 0, z: 0}
   width: 5
   height: 1
   depth: 5

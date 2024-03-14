@@ -173,6 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49630d14dc5dd6f4281cb861221d4832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayRange: 50
+  RayRange: 20
   aggression: 100
-  evasionDistance: 30
+  evasionDistance: 15
