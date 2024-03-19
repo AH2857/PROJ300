@@ -465,11 +465,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &397642545 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 699057921753768898, guid: f204d1c16b879114f8fcedf19823fa58, type: 3}
-  m_PrefabInstance: {fileID: 1109812584}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &521104132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,14 +1029,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnedUnit: {fileID: 9001146043148565579, guid: 414e43f10e056a94ba5f7308d55f2cee, type: 3}
-  Environment: {fileID: 699057921753768898, guid: f204d1c16b879114f8fcedf19823fa58, type: 3}
   SpawnCentre: {x: -5, y: 0, z: -5}
   width: 5
   height: 1
   depth: 5
   seperation: 3
-  minRot: {x: 0, y: -90, z: 0}
-  maxRot: {x: 0, y: 90, z: 0}
+  minRot: {x: -90, y: -90, z: 0}
+  maxRot: {x: 90, y: 90, z: 0}
 --- !u!4 &1390547840
 Transform:
   m_ObjectHideFlags: 0
@@ -1070,14 +1064,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnedUnit: {fileID: 9001146043148565579, guid: bf26baa800a54d04d879fbf695caffc5, type: 3}
-  Environment: {fileID: 397642545}
   SpawnCentre: {x: 0, y: 0, z: 0}
   width: 5
   height: 1
   depth: 5
   seperation: 3
-  minRot: {x: 0, y: -90, z: 0}
-  maxRot: {x: 0, y: 90, z: 0}
+  minRot: {x: -90, y: -90, z: 0}
+  maxRot: {x: 90, y: 90, z: 0}
 --- !u!1 &1607847501
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,9 +18,9 @@ public class Phys1 : MonoBehaviour
     //Rigidbody rigidbody;        // rigidbody of unit
 
 
-    void FireRay(float MaxDistance)
+    void FireRay(float MaxDistance, int angle) // modify to take direction -45 and 45
     {
-        ray = new Ray(transform.position, transform.forward);
+        ray = new Ray(transform.position, transform.forward); //* (45 * angle));
         Physics.Raycast(ray.origin, ray.direction, out hitData, MaxDistance);
     }
 
@@ -33,13 +33,19 @@ public class Phys1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        FireRay(RayRange);
+        FireRay(RayRange, 0);
         if (hitData.collider.tag == "Obstacle")
         {
             if(hitData.distance < evasionDistance)
             {
                 Debug.DrawRay(ray.origin, ray.direction * hitData.distance, Color.red);
                 transform.RotateAround(transform.position, transform.up, aggression * Time.deltaTime);
+
+                // additional raycasts (randomly left or right) after original obstacle 
+                // int Direction = Random.Range(-45, 45) * 2 - 1; // determine direction randomly
+                // cast ray in that random direction
+
+
             }
             else
             {
