@@ -347,6 +347,8 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Assets/Components/Sensors/greg.cs"
 "Assets/Assets/Environment Setup/Walls.cs"
+"Assets/RadarSensor.cs"
+"Assets/Scan.cs"
 "Assets/Simulations/Sim Scripts/DestroyOnCollision.cs"
 "Assets/Simulations/Sim Scripts/FreakyCircle.cs"
 "Assets/Units/Spawners/Archived/UnitManager.cs"
