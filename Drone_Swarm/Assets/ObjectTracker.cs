@@ -6,6 +6,13 @@ public class ObjectTracker : MonoBehaviour
 {
     // if object detected, raycast towards it. if detect object, add it to array of objects
 
+    void spheresetup()
+    {
+        SphereCollider SearchSphere = gameObject.AddComponent<SphereCollider>();    // Add sphere collider component
+        SearchSphere.radius = SearchRange;                                          // Scale sphere collider to represent scan range    
+        SearchSphere.isTrigger = true;
+    }
+
     // --- Detecting search objects ---
     public float SearchRange;
     public const int SearchObj = 10;                        // Size of buffer of objects to search for
@@ -15,50 +22,85 @@ public class ObjectTracker : MonoBehaviour
     // --- Detected objects ---
     struct castData                                         // Struct storing data about detected objects
     {
-        //float Distance;
-        Vector3 objPosition;
-        Vector3 objRotation;
-        string objTag;
+        public bool StoredData;                             // Is there data stored from the current frame?
+        public float objDistance;
+        public Vector3 objPosition;                         // Object hit position in world space
+        public Vector3 objDirVector;                        // Object direction vector
+        public string objTag;                               // Objects "tag"
     }
 
     public float DetectRange;
     public const int DetectObj  = 10;                       // Number of detected objects data to store
     castData[] DetectObjects    = new castData[DetectObj];  // Array of detected objects data 
-    int NoDetectObj             = 0;                        // Number of detected objects stored so far
+    int StoredDetectObj             = 0;                        // Number of detected objects stored so far
+
+    private void castDataClear()
+    {
+        for (int j = 0; j < StoredDetectObj; j++) 
+        {
+            DetectObjects[j].StoredData = false;
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log("Contact");
         if (SearchBufIndex < SearchObj)                     // if space in buffer:
         {
             SearchBuf[SearchBufIndex] = other.transform.position;   // add objects position to object array to be searched for later
-            SearchBufIndex++;                                       // Increment number of seacrh objects in buffer
+            Debug.Log(other.transform.position);
+            SearchBufIndex++;                                       // Increment number of seacrh objects in buffer-
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        SphereCollider SearchSphere = gameObject.AddComponent<SphereCollider>();    // Add sphere collider component
-        SearchSphere.radius = SearchRange;                                          // Scale sphere collider to represent scan range    
+        spheresetup();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+
+
+
+
+
+
+        // ----- old code
+
         // Clear Detected objects array
-        NoDetectObj = 0;                                    // set number of detected objects to zero
-        for (int i = 0; i < DetectObj; i++)                 // for loop running through buffer of targets
+        castDataClear();
+        StoredDetectObj = 0;                                    // set number of detected objects to zero
+
+        for (int i = 0; i < SearchBufIndex; i++)                 // for loop running through buffer of targets
         {
-            Vector3 VecTowObj = SearchBuf[i] - gameObject.transform.position;                       // vector towards object transform
-            RaycastHit hit;                                                                         // raycast hit data
-            if (Physics.Raycast(gameObject.transform.position, VecTowObj, out hit))                 // raycast towards the object, if hits object:
+            if (SearchBufIndex > 0)
             {
-                // obj Distance, not implemented because can be calculated later if needed
-                DetectObjects[].objPosition = hit.point;                    // Obj Position
-                DetectObjects[].objRotation = hit.transform.rotation;       // obj Rotation
-                DetectObjects[].objTag      = hit.collider.tag;             // obj Tag
-                // if hits ANY object, add that to output array, else, doesnt return anything
+                //Debug.Log(i);
+                Vector3 VecTowObj = SearchBuf[i] - gameObject.transform.position;                       // vector towards object transform
+                RaycastHit hit;                                                                         // raycast hit data
+                Debug.DrawRay(transform.position, VecTowObj, Color.blue);
+                Vector3 RaycastDir = Vector3.Normalize(VecTowObj) * DetectRange;                // Create vector in direction of target, with length equal detection range
+                if (Physics.Raycast(transform.position, RaycastDir, out hit))                 // raycast towards the object, if hits object:
+                {
+                    // if hits ANY object, add that to output array, else, doesnt return anything
+                    DetectObjects[StoredDetectObj].objDistance = Vector3.Distance(hit.point, transform.position); // obj Distance
+                    DetectObjects[StoredDetectObj].objPosition = hit.point;                    // Obj Position
+                    DetectObjects[StoredDetectObj].objDirVector = hit.transform.eulerAngles;    // obj Rotation
+                    DetectObjects[StoredDetectObj].objTag = hit.collider.tag;             // obj Tag
+                    Debug.Log(DetectObjects[StoredDetectObj].objPosition);
+
+                    Vector3 objraydir = DetectObjects[StoredDetectObj].objDirVector * DetectObjects[StoredDetectObj].objDistance;
+                    Ray objray = new Ray(transform.position, objraydir);   // create ray described by stored data
+                    Debug.DrawRay(transform.position, objray.direction, Color.red);
+                    Debug.Log(objraydir);
+                }
+
             }
         }
+
     }
 }
