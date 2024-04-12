@@ -169,6 +169,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1184994859053323527}
     m_Modifications:
+    - target: {fileID: 5564108526769146714, guid: 7a306c7003c01fc4fbf16ebf558d37cb, type: 3}
+      propertyPath: ObjectTrack
+      value: 
+      objectReference: {fileID: 1184994859187545283}
+    - target: {fileID: 5564108526769146714, guid: 7a306c7003c01fc4fbf16ebf558d37cb, type: 3}
+      propertyPath: ObjTrackChild
+      value: 
+      objectReference: {fileID: 1184994859187545283}
     - target: {fileID: 5950814359085046115, guid: 7a306c7003c01fc4fbf16ebf558d37cb, type: 3}
       propertyPath: m_Name
       value: Navigation
@@ -284,5 +292,10 @@ PrefabInstance:
 --- !u!4 &1184994859187545282 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6640478844142636674, guid: b75a0c602c0b1e94f8fc933e88b8e65b, type: 3}
+  m_PrefabInstance: {fileID: 5500666289558383168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1184994859187545283 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6640478844142636675, guid: b75a0c602c0b1e94f8fc933e88b8e65b, type: 3}
   m_PrefabInstance: {fileID: 5500666289558383168}
   m_PrefabAsset: {fileID: 0}

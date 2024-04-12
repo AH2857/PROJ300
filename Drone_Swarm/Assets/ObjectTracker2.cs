@@ -50,7 +50,7 @@ public class ObjectTracker2 : MonoBehaviour
     public const int MaxSavedObj = 10;
     int NumSavedObj = 0;
 
-    public struct ObjData                          // storing data returned from raycast in struct
+    public struct ObjData                                   // storing data returned from raycast in struct
     {
         public bool Locked;
         public float objDistance;
@@ -59,8 +59,8 @@ public class ObjectTracker2 : MonoBehaviour
         public string objTag;
     }
 
-    ObjData[] savedObj = new ObjData[MaxSavedObj];      // Array for storing data of objects that have been searched for
-    public ObjData[] navObj = new ObjData[MaxSavedObj];        // Output Array, updated at end of frame that Navigation scripts use
+    ObjData[] savedObj = new ObjData[MaxSavedObj];          // Array for storing data of objects that have been searched for
+    public ObjData[] navObj = new ObjData[MaxSavedObj];     // Output Array, updated at end of frame that Navigation scripts use
 
     void saveObj(RaycastHit data)
     {
