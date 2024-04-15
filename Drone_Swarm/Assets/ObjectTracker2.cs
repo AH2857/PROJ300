@@ -59,6 +59,7 @@ public class ObjectTracker2 : MonoBehaviour
         public Vector3 objPosition;
         public Vector3 objRotVector;
         public string objTag;
+        public Vector3 objVel;
     }
 
     ObjData[] savedObj = new ObjData[MaxSavedObj];          // Array for storing data of objects that have been searched for
@@ -71,7 +72,8 @@ public class ObjectTracker2 : MonoBehaviour
         savedObj[NumSavedObj].objPosition = data.point;                                        // Obj Position
         savedObj[NumSavedObj].objRotVector = data.transform.eulerAngles;                       // obj Rotation
         savedObj[NumSavedObj].objTag = data.collider.tag;                                      // obj Tag
-        
+        savedObj[NumSavedObj].objVel = data.rigidbody.velocity;
+
         NumSavedObj++;  // increment number of saved objects
         //Debug.Log(NumSavedObj);
     }

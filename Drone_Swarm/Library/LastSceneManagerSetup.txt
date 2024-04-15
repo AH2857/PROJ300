@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/NavTest.unity
+- path: Assets/AlignmentTest.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
