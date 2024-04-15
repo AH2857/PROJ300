@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class ObjectTracker2 : MonoBehaviour
 {
-    public bool Terminal = false;
+    public bool Terminal    = false;
+    public bool Terminal2   = false;
+    public bool Rays        = false;
     public float range;
     LayerMask RaycastIgnores;
 
@@ -55,7 +57,7 @@ public class ObjectTracker2 : MonoBehaviour
         public bool Locked;
         public float objDistance;
         public Vector3 objPosition;
-        public Vector3 objDirVector;
+        public Vector3 objRotVector;
         public string objTag;
     }
 
@@ -67,7 +69,7 @@ public class ObjectTracker2 : MonoBehaviour
         savedObj[NumSavedObj].Locked = false;    // set that part of array as unlocked so data can be accessed
         savedObj[NumSavedObj].objDistance = Vector3.Distance(data.point, transform.position);  // obj Distance
         savedObj[NumSavedObj].objPosition = data.point;                                        // Obj Position
-        savedObj[NumSavedObj].objDirVector = data.transform.eulerAngles;                       // obj Rotation
+        savedObj[NumSavedObj].objRotVector = data.transform.eulerAngles;                       // obj Rotation
         savedObj[NumSavedObj].objTag = data.collider.tag;                                      // obj Tag
         
         NumSavedObj++;  // increment number of saved objects
@@ -98,11 +100,14 @@ public class ObjectTracker2 : MonoBehaviour
             RaycastHit hit;                                                                         // raycast hit data
             
             Vector3 RaycastDir = Vector3.Normalize(VecTowObj) * range;                              // Create vector in direction of target, with length equal detection range
-            Debug.DrawRay(transform.position, RaycastDir, Color.blue);
+            if (Rays) { Debug.DrawRay(transform.position, RaycastDir, Color.blue); }
             
             if (Physics.Raycast(transform.position, VecTowObj, out hit, range, RaycastIgnores) && (NumSavedObj < MaxSavedObj))   // if detects the object, and there is room in SavedObjects array
             {
-                Debug.Log("hit");
+                if (Terminal2)
+                {
+                    Debug.Log("hit");
+                }
                 saveObj(hit);   // save object data
                 if (Terminal) { Debug.Log("3"); }
             }
@@ -114,8 +119,11 @@ public class ObjectTracker2 : MonoBehaviour
         // Display all stored contacts
         for (int h = 0; h < NumSavedObj; h++)
         {
-            Debug.Log(h);
-            Debug.Log(savedObj[h].Locked);
+            if (Terminal2)
+            {
+                Debug.Log(h);
+                Debug.Log(savedObj[h].Locked);
+            }
             if (savedObj[h].Locked == false) {
                 if (Terminal) { Debug.Log("4"); }
 
@@ -124,7 +132,8 @@ public class ObjectTracker2 : MonoBehaviour
                 //Debug.Log(savedObj[h].objDistance);
                 //Ray objray = new Ray(transform.position, objraydir);                    // create ray described by stored data
                 //Debug.DrawRay(transform.position, objray.direction, Color.red);
-                Debug.DrawRay(transform.position, objraydir, Color.red);
+                if (Rays){ Debug.DrawRay(transform.position, objraydir, Color.red); }
+                
             }
             
             
