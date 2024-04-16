@@ -10,9 +10,12 @@ public class ObjectTracker2 : MonoBehaviour
     public float range;
     LayerMask RaycastIgnores;
 
-    void spheresetup()
+    SphereCollider SearchSphere;
+
+    void sphereSetup()
     {
-        SphereCollider SearchSphere = gameObject.AddComponent<SphereCollider>();    // Add sphere collider component
+        //SphereCollider SearchSphere = gameObject.AddComponent<SphereCollider>();    // Add sphere collider component
+        SearchSphere = gameObject.AddComponent<SphereCollider>();                   // Add sphere collider component
         SearchSphere.radius = range;                                                // Scale sphere collider to represent scan range    
         SearchSphere.isTrigger = true;
 
@@ -28,6 +31,11 @@ public class ObjectTracker2 : MonoBehaviour
         //RaycastIgnores = (1 << ObjectTrackerLayer); // put sphere on Object Tracker layer, layer 6 
         //RaycastIgnores = ~(LayerMask.GetMask("ObjectTracker"));
 
+    }
+
+    void sphereUpdate()
+    {
+        SearchSphere.radius = range;
     }
 
     // --- Detecting Objects ---
@@ -81,13 +89,13 @@ public class ObjectTracker2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spheresetup();
+        sphereSetup();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //SearchSphere.radius = range;
+        sphereUpdate();
 
         for(int j = 0; j < MaxSavedObj; j++) { savedObj[j].Locked = true; }  // Set each part of saved obj array as Locked, until it is overwritten
         NumSavedObj = 0;
