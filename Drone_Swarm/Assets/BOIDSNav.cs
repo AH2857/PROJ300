@@ -19,11 +19,12 @@ public class BOIDSNav : MonoBehaviour
     // Sum the distance vectors of all other objects within "Seperation range", relative to the Unit.
     // The seperation vector faces in the opposite direction to the sum vector, and is scaled by the SepStrength
 
-    int SepMaxRange = 20;   // Seperation Range
-    int SepStrength = 10;   // Seperation Strength, percentage out of 100%
-    Vector3 Seperation()
+    //int SepMaxRange = 50;   // Seperation Range
+    //int SepStrength = 100;   // Seperation Strength, percentage out of 100%
+    Vector3 Seperation(int SepMaxRange, int SepStrength)
     {
         Vector3 SepVector = Vector3.zero;       // Initialise Seperation vector as 0,0,0
+        int ObjCount = 0;
         
         for (int i = 0; i < TrackerRef.navObj.Length; i++)
         {
@@ -31,12 +32,16 @@ public class BOIDSNav : MonoBehaviour
             {
                 Vector3 distVec = TrackerRef.navObj[i].objPosition - transform.position;    // get distance vector of this object using scan position vector, from the unit 
                 SepVector -= distVec;                                                       // add inverse of distance vector to overrall Sep Vector
+                ObjCount++;
             }
         }
 
-        SepVector = SepVector * SepStrength / 100;                            // scale the seperation vector (once for better performance, rather than on all individual elements
-        Debug.DrawRay(transform.position, SepVector, Color.red);     // Display Seperation vector as a ray
-        NumFuncs++;
+        if (ObjCount > 0)
+        {
+            SepVector = SepVector * SepStrength / (ObjCount * 100);                  // scale the seperation vector (once for better performance, rather than on all individual elements
+            Debug.DrawRay(transform.position, SepVector, Color.red);    // Display Seperation vector as a ray
+            NumFuncs++;
+        }
         return SepVector;
     }
 
@@ -46,10 +51,10 @@ public class BOIDSNav : MonoBehaviour
     // the resultant vector of all units within range is then scaled by alignStrength and returned
 
     //string AllyTag;             // Tag of type of unit to match velocity with, set to its own unit type whenever Alignment is called
-    int AlignMaxRange = 50;     // Alignment Range
-    int AlignStrength = 500;    // Alignment Strength, % out of 100
+    //int AlignMaxRange = 200;     // Alignment Range
+    //int AlignStrength = 10;    // Alignment Strength, % out of 100
 
-    Vector3 Alignment(string AllyTag)
+    Vector3 Alignment(string AllyTag, int AlignMaxRange, int AlignStrength)
     {
         //AllyTag = gameObject.tag;
         //AllyTag = "RedUnit";
@@ -70,10 +75,13 @@ public class BOIDSNav : MonoBehaviour
             }
         }
 
-        if (AllyCount > 0) { AlignVector = AlignVector * AlignStrength / (AllyCount * 100); }   // Scale Alignment vector 
-        Debug.DrawRay(transform.position, AlignVector, Color.blue);             // Display Alignment vector as ray
-        //Debug.Log(AlignVector);
-        NumFuncs++;
+        if (AllyCount > 0)
+        {
+            AlignVector = AlignVector * AlignStrength / (AllyCount * 100);      // Scale Alignment vector 
+            Debug.DrawRay(transform.position, AlignVector, Color.blue);         // Display Alignment vector as ray
+            //Debug.Log(AlignVector);
+            NumFuncs++;
+        }
         return AlignVector;
     }
 
@@ -83,10 +91,10 @@ public class BOIDSNav : MonoBehaviour
     // the cohesion vector should point towards this position
 
     //string AllyTag;
-    int CohereMaxRange = 50;    // Max Cohesion range
-    int CohereStrength = 100;   // Cohesion strength, % out of 100
+    //int CohereMaxRange = 200;    // Max Cohesion range
+    //int CohereStrength = 10;   // Cohesion strength, % out of 100
 
-    Vector3 Cohesion(string AllyTag)
+    Vector3 Cohesion(string AllyTag, int CohereMaxRange, int CohereStrength)
     {
         Vector3 CohereVector = Vector3.zero;
         int AllyCount = 0;
@@ -98,19 +106,28 @@ public class BOIDSNav : MonoBehaviour
                 Vector3 AllyPosVec = TrackerRef.navObj[i].objPosition - transform.position;  // Get realtive position data of nearby unit
                 CohereVector += AllyPosVec;                             // update summed unit position
                 AllyCount++;                                            // increment ally count
-                Debug.Log(CohereVector);
+                //Debug.Log(CohereVector);
             }
         }
 
-        if (AllyCount > 0) { CohereVector = CohereVector/ AllyCount; }
-        //if (AllyCount > 0) { CohereVector = CohereVector  * CohereStrength / (AllyCount * 100); }    // divide total position vector by the number of units
-        Debug.DrawRay(transform.position, CohereVector, Color.green);
-
-        NumFuncs++;
+        if (AllyCount > 0)
+        {
+            CohereVector = CohereVector / AllyCount;
+            CohereVector = CohereVector  * CohereStrength / (AllyCount * 100);     // divide total position vector by the number of units
+            Debug.DrawRay(transform.position, CohereVector, Color.green);
+            NumFuncs++;
+        }
         return CohereVector;
     }
 
-
+    Vector3 Target = Vector3.zero; 
+    Vector3 TargetPosition(Vector3 AttractPos, int AttractStrength)
+    {
+        Vector3 AttractVector = Vector3.zero;
+        AttractVector = AttractPos - transform.position;
+        NumFuncs++;
+        return AttractVector;
+    }
 
 
     // Start is called before the first frame update
@@ -134,17 +151,34 @@ public class BOIDSNav : MonoBehaviour
         // headingVector += Seperation()
         NumFuncs = 0;
         headingVector = Vector3.zero;
-        headingVector += Seperation();
-        headingVector += Alignment(UnitTypeTag);
-        headingVector += Cohesion(UnitTypeTag);
+        headingVector += Seperation(25, 50);
+        headingVector += Alignment(UnitTypeTag, 150, 75);
+        headingVector += Cohesion(UnitTypeTag, 200, 100);
+        headingVector += TargetPosition(Target, 150);
+        
 
         // modify so each function modifies the vector passed to it instead of returning, (so if it does nothing it doesnt advocate for moving to 0,0,0????
 
 
         // divide heading vector by number of fucntions called to create an average 
-        headingVector = headingVector / NumFuncs;
+        if (NumFuncs > 0)
+        {
+            headingVector = headingVector / NumFuncs;
+            
+        }
+        
+        
+        int forceCap = 100;
+        /*
+        if (headingVector.x > forceCap) { headingVector.x = forceCap; }
+        if (headingVector.y > forceCap) { headingVector.y = forceCap; }
+        if (headingVector.z > forceCap) { headingVector.z = forceCap; }
+        */
+        headingVector = Vector3.Normalize(headingVector * forceCap);
+
         Debug.DrawRay(transform.position, headingVector, Color.white);
 
-
+        GetComponentInParent<Rigidbody>().AddForce(headingVector);
+        //GetComponentInParent<Rigidbody>().velocity)
     }
 }
