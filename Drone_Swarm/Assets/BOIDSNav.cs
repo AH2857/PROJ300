@@ -5,6 +5,7 @@ using UnityEngine;
 public class BOIDSNav : MonoBehaviour
 {
     Vector3 headingVector = Vector3.zero;
+    public Vector3 outputHeadingVector = Vector3.forward;
 
     ObjectTracker2 TrackerRef;
 
@@ -167,19 +168,18 @@ public class BOIDSNav : MonoBehaviour
             headingVector = headingVector / NumFuncs;
             
         }
-        
-        
-        int forceCap = 500;     // works at 100
+
+        outputHeadingVector = headingVector; // Output heading vector
+
         /*
-        if (headingVector.x > forceCap) { headingVector.x = forceCap; }
-        if (headingVector.y > forceCap) { headingVector.y = forceCap; }
-        if (headingVector.z > forceCap) { headingVector.z = forceCap; }
-        */
+        int forceCap = 500;     // works at 100
+        
         headingVector = Vector3.Normalize(headingVector * forceCap);
 
         Debug.DrawRay(transform.position, headingVector, Color.white);
 
         GetComponentInParent<Rigidbody>().AddForce(headingVector);
         //GetComponentInParent<Rigidbody>().velocity)
+        */
     }
 }
