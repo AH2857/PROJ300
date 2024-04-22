@@ -122,9 +122,10 @@ public class BOIDSNav : MonoBehaviour
 
     Vector3 Target = Vector3.zero; 
     Vector3 TargetPosition(Vector3 AttractPos, int AttractStrength)
-    {
+    {   
         Vector3 AttractVector = Vector3.zero;
-        AttractVector = AttractPos - transform.position;
+        AttractVector = ((AttractPos - transform.position) * AttractStrength) / 100;
+        Debug.DrawRay(transform.position, AttractVector, Color.yellow);
         NumFuncs++;
         return AttractVector;
     }
@@ -151,10 +152,10 @@ public class BOIDSNav : MonoBehaviour
         // headingVector += Seperation()
         NumFuncs = 0;
         headingVector = Vector3.zero;
-        headingVector += Seperation(25, 50);
-        headingVector += Alignment(UnitTypeTag, 150, 75);
-        headingVector += Cohesion(UnitTypeTag, 200, 100);
-        headingVector += TargetPosition(Target, 150);
+        headingVector += Seperation(10, 100);                    // 50 75
+        headingVector += Alignment(UnitTypeTag, 20, 75);       // 150 75
+        headingVector += Cohesion(UnitTypeTag, 200, 75);       // 200 100
+        headingVector += TargetPosition(Target, 50);           // 150
         
 
         // modify so each function modifies the vector passed to it instead of returning, (so if it does nothing it doesnt advocate for moving to 0,0,0????
@@ -168,7 +169,7 @@ public class BOIDSNav : MonoBehaviour
         }
         
         
-        int forceCap = 100;
+        int forceCap = 500;     // works at 100
         /*
         if (headingVector.x > forceCap) { headingVector.x = forceCap; }
         if (headingVector.y > forceCap) { headingVector.y = forceCap; }

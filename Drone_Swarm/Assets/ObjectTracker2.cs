@@ -39,7 +39,7 @@ public class ObjectTracker2 : MonoBehaviour
     }
 
     // --- Detecting Objects ---
-    public const int MaxDetectObj = 10;                     // Max number of detectable objects
+    public const int MaxDetectObj = 20;                     // Max number of detectable objects     //10 originally
     int NumDetected = 0;                                    // Number of objects detected and saved this frame, reset each frame
     Vector3[] DetectedObjPos = new Vector3[MaxDetectObj];   // Array storing all the detected objects this frame
 

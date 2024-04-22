@@ -7,17 +7,18 @@ public class DestroyOnCollision : MonoBehaviour
     public GameObject CollisionMarker;
     Vector3 CollisionPos;
     Quaternion CollisionRot;
+    public string ObjectType = "RedUnit";
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Unit"))
-        {
+        //if (other.CompareTag("Unit"))
+        //{
             print(other.gameObject.transform.position);
             CollisionPos = other.gameObject.transform.position;
             CollisionRot = other.gameObject.transform.rotation;
             Instantiate(CollisionMarker, CollisionPos, CollisionRot);
             Destroy(other.gameObject);                
-        }
+        //}
     }
 
     // Start is called before the first frame update
