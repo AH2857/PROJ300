@@ -146,16 +146,25 @@ public class Aero_Motion : MonoBehaviour
     Vector3 DragForceCalc()
     {
         // calculate drag in each axis, using speed in that axis and coeff of drag in that axis
-
+        Vector3 drag = Vector3.zero;
         Vector3 worldVel = GetComponentInParent<Rigidbody>().velocity;      // calculate velocity of unit in worldspace
         Vector3 locVel = transform.InverseTransformDirection(worldVel);     // calculate velocity in local axis of unit
         // use drag equation to update that axis of drag force vector
-        dragForce.x = Mathf.Pow(locVel.x, 2);   // Simplified version of the drag equation, that still represents "Fd prop to v^2" 
+        drag.x = dragCoeffProfile.x * Mathf.Pow(locVel.x, 2);   // Simplified version of the drag equation, that still represents "Fd prop to v^2" 
+        drag.y = dragCoeffProfile.y * Mathf.Pow(locVel.y, 2);
+        drag.z = dragCoeffProfile.z * Mathf.Pow(locVel.z, 2);
+        return drag;
     }
 
-    // Apply final summed torque
-    // Apply final summed acceleration
-    void SummedPhysics()
+    Vector3 LiftForceCalc()
+    {
+        // calculate Lift force 
+
+    }
+
+        // Apply final summed torque
+        // Apply final summed acceleration
+        void SummedPhysics()
     {
         
         GetComponentInParent<Rigidbody>().AddTorque(pilotTorqSum + physTorqSum);                    // Apply rotation torques
