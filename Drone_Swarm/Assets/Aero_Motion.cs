@@ -170,15 +170,14 @@ public class Aero_Motion : MonoBehaviour
         LiftDrag = LiftForce / LDRatio;                                     // use lift and LDratio to calculate lift drag
     }
 
-        // Apply final summed torque
-        // Apply final summed acceleration
-        void SummedPhysics()
+    // Apply final summed torque
+    // Apply final summed acceleration
+    void SummedPhysics()
     {
-        
         GetComponentInParent<Rigidbody>().AddTorque(pilotTorqSum + physTorqSum);                    // Apply rotation torques
         dragForce = DragForceCalc();
         LiftForceCalc();
-        GetComponentInParent<Rigidbody>().AddForce((Vector3.forward * ForThrustStr) - dragForce + (Vector3.up * LiftForce));   // Apply forces to craft
+        GetComponentInParent<Rigidbody>().AddForce((Vector3.forward * ForThrustStr) + (- dragForce) + (Liftdir * LiftForce) + (- Vector3.forward * LiftDrag));   // Apply forces to craft
     }
 
     // Start is called before the first frame update
@@ -196,12 +195,15 @@ public class Aero_Motion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // reset all variables that need to reset to 0
+
 
             // if timer runs out, get new nav data and restart banking turn switchcase
             // get heading vector from nav script
             headingVector = NavRef.outputHeadingVector;
             TargetAngleUpdate();
             bankStage = 1;
+        
 
         // functions that always run on 
         banking();
