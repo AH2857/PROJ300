@@ -141,7 +141,11 @@ public class Aero_Motion : MonoBehaviour
     Vector3 dragCoeffProfile;               // used in drag force calculations for each axis
     int thrustDirCoeff      = 1;            // drag coefficient in direction of main coaxial thrust
     int nonThrustDirCoeff   = 5;            // drag coefficient in other axes
-    
+    Vector3 Liftdir         = Vector3.up;   // set direction of lift force created due to forward motion in z axis
+    float LiftCoeff         = 2.0f;          // Lift coefficent recreating "FL prop LiftCoeff * v^2"
+    int LDRatio             = 25;           // Lift to drag ratio. lift drag = lift / LDratio
+    float LiftForce         = 0;            // lift force created by "wings"
+    float LiftDrag          = 0;            // drag created by wings creating lift
 
     Vector3 DragForceCalc()
     {
@@ -156,10 +160,14 @@ public class Aero_Motion : MonoBehaviour
         return drag;
     }
 
-    Vector3 LiftForceCalc()
+    void LiftForceCalc()
     {
-        // calculate Lift force 
-
+        // calculate Lift force and drag from lift generation
+        Vector3 Lift = Vector3.zero;
+        Vector3 worldVel = GetComponentInParent<Rigidbody>().velocity;      // calculate velocity of unit in worldspace
+        Vector3 locVel = transform.InverseTransformDirection(worldVel);     // calculate velocity in local axis of unit
+        LiftForce = LiftCoeff * (Mathf.Pow(locVel.z, 2)/2);                 // use lift equation to update lift axis force vector
+        LiftDrag = LiftForce / LDRatio;                                     // use lift and LDratio to calculate lift drag
     }
 
         // Apply final summed torque
@@ -169,7 +177,8 @@ public class Aero_Motion : MonoBehaviour
         
         GetComponentInParent<Rigidbody>().AddTorque(pilotTorqSum + physTorqSum);                    // Apply rotation torques
         dragForce = DragForceCalc();
-        GetComponentInParent<Rigidbody>().AddForce((Vector3.forward * ForThrustStr) - dragForce);   // Apply forces to craft
+        LiftForceCalc();
+        GetComponentInParent<Rigidbody>().AddForce((Vector3.forward * ForThrustStr) - dragForce + (Vector3.up * LiftForce));   // Apply forces to craft
     }
 
     // Start is called before the first frame update
