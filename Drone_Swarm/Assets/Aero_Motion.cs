@@ -88,7 +88,7 @@ public class Aero_Motion : MonoBehaviour
 
     void TargetAngleUpdate()
     {
-        targAng = 
+        targAng = NavRef.outputHeadingVector;
         targAngZ = (int)targAng.z;
         targAngX = (int)targAng.x;
         targAngY = (int)targAng.y;
@@ -177,10 +177,10 @@ public class Aero_Motion : MonoBehaviour
     // Apply final summed acceleration
     void SummedPhysics(int forwardThrust)
     {
-        GetComponentInParent<Rigidbody>().AddTorque((pilotTorqSum + physTorqSum)* Time.deltaTime);                                                                                    // Apply rotation torques
+        GetComponentInParent<Rigidbody>().AddTorque((pilotTorqSum + physTorqSum) / Time.deltaTime);                                                                                    // Apply rotation torques
         dragForce = DragForceCalc();
         LiftForceCalc();
-        GetComponentInParent<Rigidbody>().AddForce(((Vector3.forward * forwardThrust) + (- dragForce) + (Liftdir * LiftForce) + (- Vector3.forward * LiftDrag)) * Time.deltaTime);     // Apply forces to unit
+        GetComponentInParent<Rigidbody>().AddForce(((Vector3.forward * forwardThrust) + (- dragForce) + (Liftdir * LiftForce) + (- Vector3.forward * LiftDrag)) / Time.deltaTime);     // Apply forces to unit
     }
 
     int navCountdown = 10;          // Countdown of 10 seconds
