@@ -152,10 +152,10 @@ public class BOIDSNav : MonoBehaviour
         // headingVector += Seperation()
         NumFuncs = 0;
         headingVector = Vector3.zero;
-        headingVector += Seperation(10, 100);                    // 50 75
-        headingVector += Alignment(UnitTypeTag, 20, 75);       // 150 75
-        headingVector += Cohesion(UnitTypeTag, 200, 75);       // 200 100
-        headingVector += TargetPosition(Target, 50);           // 150
+        headingVector += Seperation(10, 75);                    // 50 75
+        headingVector += Alignment(UnitTypeTag, 20, 75);        // 150 75
+        headingVector += Cohesion(UnitTypeTag, 200, 100);       // 200 100
+        headingVector += TargetPosition(Target, 50);            // 150
         
 
         // modify so each function modifies the vector passed to it instead of returning, (so if it does nothing it doesnt advocate for moving to 0,0,0????
