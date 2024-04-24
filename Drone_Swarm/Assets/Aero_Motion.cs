@@ -20,8 +20,6 @@ public class Aero_Motion : MonoBehaviour
     Vector3 pilotTorqSum = Vector3.zero;    // Stores torques to be applied at end of frame by the unit's "piloting" (rolling the unit to turn, etc)
     Vector3 physTorqSum = Vector3.zero;     // Stores torques to be applied at end of frame due to unit's physical properties (stabilisation of wings etc)
 
-
-    
     float rotateTorqCalc(int locTargAng, float locCurAng, int rollStr, float AngTol) // local Target Angle, local Current Angle, local roll strength (1), Angle accuracy tolerance
     {
         int RollDir = 0;
@@ -110,25 +108,29 @@ public class Aero_Motion : MonoBehaviour
         switch (bankStage)
         {
             case 0:
+                Debug.Log(bankStage);
                 break;
 
             case 1:
-
-                if (roll(10, targAngZ, transform.rotation.z, zAngleTol))    // check if at intended z angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
+                Debug.Log(bankStage);
+                if (roll(20, targAngZ, transform.rotation.z, zAngleTol))    // check if at intended z angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
                 {
                     bankStage = 2;                                          // if true: set case = 2
                 }
                 break;
 
             case 2:
+                Debug.Log(bankStage);
                 if (pitch(5, targAngX, transform.rotation.x, xAngleTol))    // check if at intended x angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
                 {
-                    bankStage = 3;                                          // if true: set case = 3
+                    //bankStage = 3;                                          // if true: set case = 3
+                    bankStage = 0;
                 }
                 break;
 
             case 3:
-                if (roll(10, 0, transform.rotation.z, zAngleTol))           // check if at intended z angle(0),
+                Debug.Log(bankStage);
+                if (roll(20, 0, transform.rotation.z, zAngleTol))           // check if at intended z angle(0),
                 {
                     bankStage = 0;                                          // if true: bankStage = 0
                     return true;
@@ -139,14 +141,14 @@ public class Aero_Motion : MonoBehaviour
     }
 
     //Vector3 StartForce = Vector3.forward;   // Starting force
-    public int ForThrustStr = 1;            // Forward thrust strength
+    public int ForThrustStr = 100000000;            // T, Forward thrust strength
     Vector3 dragForce       = Vector3.zero;
-    Vector3 dragCoeffProfile;               // used in drag force calculations for each axis
-    int thrustDirCoeff      = 1;            // drag coefficient in direction of main coaxial thrust
-    int nonThrustDirCoeff   = 5;            // drag coefficient in other axes
+    Vector3 dragCoeffProfile;               // d, used in drag force calculations for each axis
+    int thrustDirCoeff      = 10;            // drag coefficient in direction of main coaxial thrust
+    int nonThrustDirCoeff   = 20;            // drag coefficient in other axes
     Vector3 Liftdir         = Vector3.up;   // set direction of lift force created due to forward motion in z axis
-    float LiftCoeff         = 2.0f;          // Lift coefficent recreating "FL prop LiftCoeff * v^2"
-    int LDRatio             = 25;           // Lift to drag ratio. lift drag = lift / LDratio
+    float LiftCoeff         = 8.4f;         // L, Lift coefficent recreating "FL prop LiftCoeff * v^2"
+    int LDRatio             = 25;           // R, Lift to drag ratio. lift drag = lift / LDratio
     float LiftForce         = 0;            // lift force created by "wings"
     float LiftDrag          = 0;            // drag created by wings creating lift
 
@@ -180,11 +182,13 @@ public class Aero_Motion : MonoBehaviour
         GetComponentInParent<Rigidbody>().AddTorque((pilotTorqSum + physTorqSum) / Time.deltaTime);                                                                                    // Apply rotation torques
         dragForce = DragForceCalc();
         LiftForceCalc();
-        GetComponentInParent<Rigidbody>().AddForce(((Vector3.forward * forwardThrust) + (- dragForce) + (Liftdir * LiftForce) + (- Vector3.forward * LiftDrag)) / Time.deltaTime);     // Apply forces to unit
+        Vector3 finalForce = ((Vector3.forward * forwardThrust) + (-dragForce) + (Liftdir * LiftForce) + (-Vector3.forward * LiftDrag)) / Time.deltaTime;
+        //Debug.Log(finalForce);
+        GetComponentInParent<Rigidbody>().AddForce(finalForce);     // Apply forces to unit
     }
 
-    int navCountdown = 10;          // Countdown of 10 seconds
-    float navCheckCountdown; 
+    int navCountdown = 2;          // Countdown of 10 seconds
+    float navCheckCountdown;
 
     // Start is called before the first frame update
     void Start()
@@ -192,24 +196,30 @@ public class Aero_Motion : MonoBehaviour
         GameObject navigation = GameObject.Find("Navigation");
         NavRef = navigation.GetComponent<BOIDSNav>();
 
+
+
         // drag setup
         dragCoeffProfile = Vector3.one * nonThrustDirCoeff;     // set drag coefficient in x and y axes (and z axis)
         dragCoeffProfile.z = thrustDirCoeff;                    // lower drag coefficient in axis of thrust (z axis)
-        
+
         // start timer
         navCheckCountdown = navCountdown;
+
+        // set in motion
+        GetComponentInParent<Rigidbody>().velocity = Vector3.forward * 50;
+
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() { 
+        
         // reset all variables that need to reset to 0
 
         navCheckCountdown -= Time.deltaTime;                    // decrement countdown
         if (navCheckCountdown <= 0)
         {
             // if timer runs out, get new nav data and restart banking turn switchcase
-            
+
             headingVector = NavRef.outputHeadingVector; // get heading vector from nav script
             TargetAngleUpdate();                        // Update target angles
             bankStage = 1;                              // start banking turn
@@ -219,6 +229,7 @@ public class Aero_Motion : MonoBehaviour
         // functions that always run on update
         banking();
         SummedPhysics(ForThrustStr);        // Apply final summed torque and Apply final summed acceleration
-    }    
+        Debug.DrawRay(transform.position, Vector3.forward, Color.white);
+    }
 }
 
