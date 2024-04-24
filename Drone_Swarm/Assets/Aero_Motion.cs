@@ -15,16 +15,18 @@ public class Aero_Motion : MonoBehaviour
 
     // default motion functions are used in the unit specific manouevre
     // the Aeroplane uses the banking turn manouevre, which consists of a sequence of roll, pitch up, roll back to level
-    public int bankStage = 0;               // stage of the banking turn manouevre that is being executed, with with 0 being no bank being executed currently
+    int bankStage = 0;               // stage of the banking turn manouevre that is being executed, with with 0 being no bank being executed currently
     public Vector3 targAng;                 // Target angle in each axis
     Vector3 pilotTorqSum = Vector3.zero;    // Stores torques to be applied at end of frame by the unit's "piloting" (rolling the unit to turn, etc)
     Vector3 physTorqSum = Vector3.zero;     // Stores torques to be applied at end of frame due to unit's physical properties (stabilisation of wings etc)
 
+
     
-    float rotateTorqCalc(int locTargAng, float locCurAng, int rollStr) // local Target Angle, local Current Angle, local roll strength (1)
+    float rotateTorqCalc(int locTargAng, float locCurAng, int rollStr, float AngTol) // local Target Angle, local Current Angle, local roll strength (1), Angle accuracy tolerance
     {
-        int RollDir;
-        if ((locCurAng - locTargAng) == 0) 
+        int RollDir = 0;
+        //if ((locCurAng - locTargAng) == 0) 
+        if ((locCurAng - locTargAng) > (-AngTol) && (locCurAng - locTargAng) < (AngTol))
         { 
             RollDir = 0; 
         } 
@@ -44,11 +46,15 @@ public class Aero_Motion : MonoBehaviour
             
     }
 
+    // Angle tolerance, can be this many degrees out and still be considered to be at the correct angle position
+    public int zAngleTol = 1, xAngleTol = 5, yAngleTol = 5;           // axis angle tolerances
+    int targAngZ, targAngX, targAngY;
+
     // roll function
-    bool roll(int rollStr)
+    bool roll(int rollStr, int tAng, float cAng, float Tol)     // returns bool representing whether roll torque is required
     {
-        float reqTorq;                                                          // Required torque
-        reqTorq = rotateTorqCalc(targAngZ, transform.rotation.z, rollStr);      // Calculate required torque to apply to execute intended 
+        float reqTorq;                                          // Required torque
+        reqTorq = rotateTorqCalc(tAng, cAng, rollStr, Tol);     // Calculate required torque to apply to execute intended 
         if (reqTorq == 0)
         {
             // pilot torque remains unmodified
@@ -61,18 +67,28 @@ public class Aero_Motion : MonoBehaviour
         }
     }
 
-
     // pitch function 
+    bool pitch(int pitchStr, int tAng, float cAng, float Tol)
+    {
+        float reqTorq;                                          // Required torque
+        reqTorq = rotateTorqCalc(tAng, cAng, pitchStr, Tol);    // Calculate required torque to apply to execute intended 
+        if (reqTorq == 0)
+        {
+            // pilot torque remains unmodified
+            return false;
+        }
+        else
+        {
+            pilotTorqSum.x += reqTorq;
+            return true;
+        }
+    }
 
     // yaw function (ignore)
 
-
-    // Angle tolerance, can be this many degrees out and still be considered to be at the correct angle position
-    public int zAngleTol = 1, xAngleTol = 5, yAngleTol = 5;           // axis angle tolerances
-    int targAngZ, targAngX, targAngY;   
-
     void TargetAngleUpdate()
     {
+        targAng = 
         targAngZ = (int)targAng.z;
         targAngX = (int)targAng.x;
         targAngY = (int)targAng.y;
@@ -98,44 +114,31 @@ public class Aero_Motion : MonoBehaviour
 
             case 1:
 
-                if (((targAngZ - zAngleTol) <= transform.position.z) && (transform.position.z <= (targAngZ + zAngleTol)))       // check if at intended z angle
+                if (roll(10, targAngZ, transform.rotation.z, zAngleTol))    // check if at intended z angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
                 {
-                    bankStage = 2;              // if true: set case = 2
-                }
-                else
-                {
-                    // if false: roll towards angle
+                    bankStage = 2;                                          // if true: set case = 2
                 }
                 break;
 
             case 2:
-                if (((targAngX - xAngleTol) <= transform.position.x) && (transform.position.x <= (targAngX + xAngleTol)))       // check if at intended x angle
+                if (pitch(5, targAngX, transform.rotation.x, xAngleTol))    // check if at intended x angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
                 {
-                    bankStage = 3;           // if true: set case = 3
-                }
-                else
-                {
-                    // if false: pitch up towards angle
+                    bankStage = 3;                                          // if true: set case = 3
                 }
                 break;
 
             case 3:
-                if (((targAngZ - zAngleTol) <= transform.position.z) && (transform.position.z <= (targAngZ + zAngleTol)))       // check if at intended z angle(0),
+                if (roll(10, 0, transform.rotation.z, zAngleTol))           // check if at intended z angle(0),
                 {
-                    bankStage = 0;              // if true: bankStage = 0
+                    bankStage = 0;                                          // if true: bankStage = 0
                     return true;
-                }
-                else
-                {
-                    // if false: roll towards angle(0)
                 }
                 break;
         }
-
         return false;
     }
 
-    Vector3 StartForce = Vector3.forward;   // Starting force
+    //Vector3 StartForce = Vector3.forward;   // Starting force
     public int ForThrustStr = 1;            // Forward thrust strength
     Vector3 dragForce       = Vector3.zero;
     Vector3 dragCoeffProfile;               // used in drag force calculations for each axis
@@ -172,13 +175,16 @@ public class Aero_Motion : MonoBehaviour
 
     // Apply final summed torque
     // Apply final summed acceleration
-    void SummedPhysics()
+    void SummedPhysics(int forwardThrust)
     {
-        GetComponentInParent<Rigidbody>().AddTorque(pilotTorqSum + physTorqSum);                    // Apply rotation torques
+        GetComponentInParent<Rigidbody>().AddTorque((pilotTorqSum + physTorqSum)* Time.deltaTime);                                                                                    // Apply rotation torques
         dragForce = DragForceCalc();
         LiftForceCalc();
-        GetComponentInParent<Rigidbody>().AddForce((Vector3.forward * ForThrustStr) + (- dragForce) + (Liftdir * LiftForce) + (- Vector3.forward * LiftDrag));   // Apply forces to craft
+        GetComponentInParent<Rigidbody>().AddForce(((Vector3.forward * forwardThrust) + (- dragForce) + (Liftdir * LiftForce) + (- Vector3.forward * LiftDrag)) * Time.deltaTime);     // Apply forces to unit
     }
+
+    int navCountdown = 10;          // Countdown of 10 seconds
+    float navCheckCountdown; 
 
     // Start is called before the first frame update
     void Start()
@@ -189,7 +195,9 @@ public class Aero_Motion : MonoBehaviour
         // drag setup
         dragCoeffProfile = Vector3.one * nonThrustDirCoeff;     // set drag coefficient in x and y axes (and z axis)
         dragCoeffProfile.z = thrustDirCoeff;                    // lower drag coefficient in axis of thrust (z axis)
-
+        
+        // start timer
+        navCheckCountdown = navCountdown;
     }
 
     // Update is called once per frame
@@ -197,17 +205,20 @@ public class Aero_Motion : MonoBehaviour
     {
         // reset all variables that need to reset to 0
 
-
+        navCheckCountdown -= Time.deltaTime;                    // decrement countdown
+        if (navCheckCountdown <= 0)
+        {
             // if timer runs out, get new nav data and restart banking turn switchcase
-            // get heading vector from nav script
-            headingVector = NavRef.outputHeadingVector;
-            TargetAngleUpdate();
-            bankStage = 1;
-        
+            
+            headingVector = NavRef.outputHeadingVector; // get heading vector from nav script
+            TargetAngleUpdate();                        // Update target angles
+            bankStage = 1;                              // start banking turn
+            navCheckCountdown = navCountdown;           // restart countdown
+        }
 
-        // functions that always run on 
+        // functions that always run on update
         banking();
-        SummedPhysics();        // Apply final summed torque and Apply final summed acceleration
+        SummedPhysics(ForThrustStr);        // Apply final summed torque and Apply final summed acceleration
     }    
 }
 
