@@ -152,10 +152,10 @@ public class BOIDSNav : MonoBehaviour
         // headingVector += Seperation()
         NumFuncs = 0;
         headingVector = Vector3.zero;
-        headingVector += Seperation(10, 75);                    // 50 75
-        headingVector += Alignment(UnitTypeTag, 20, 75);        // 150 75
-        headingVector += Cohesion(UnitTypeTag, 200, 100);       // 200 100
-        headingVector += TargetPosition(Target, 50);            // 150
+        headingVector += Seperation(10, 90);                    // 50 75
+        headingVector += Alignment(UnitTypeTag, 20, 250);        // 150 75
+        headingVector += Cohesion(UnitTypeTag, 20, 100);       // 200 100
+        headingVector += TargetPosition(Target, 80);            // 150
         
 
         // modify so each function modifies the vector passed to it instead of returning, (so if it does nothing it doesnt advocate for moving to 0,0,0????
@@ -175,11 +175,12 @@ public class BOIDSNav : MonoBehaviour
         if (headingVector.y > forceCap) { headingVector.y = forceCap; }
         if (headingVector.z > forceCap) { headingVector.z = forceCap; }
         */
-        headingVector = Vector3.Normalize(headingVector * forceCap);
-
+        //headingVector = Vector3.Normalize(headingVector * forceCap);
+        headingVector = Vector3.Normalize(headingVector);
         Debug.DrawRay(transform.position, headingVector, Color.white);
+        headingVector = headingVector * forceCap;
 
-        GetComponentInParent<Rigidbody>().AddForce(headingVector);
+        GetComponentInParent<Rigidbody>().AddForce(headingVector * Time.deltaTime);
         //GetComponentInParent<Rigidbody>().velocity)
     }
 }
