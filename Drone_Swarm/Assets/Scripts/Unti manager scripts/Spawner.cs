@@ -62,8 +62,4 @@ public class Spawner : MonoBehaviour
 
     }
 
-    void FixedUpdate()
-    {
-        //SingleSpawn(EnableSpawn);
-    }
 }

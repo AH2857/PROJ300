@@ -46,17 +46,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ManagedUnits: RedUnit
-  ObjTrackRays: 1
-  Range: 20
+  MaxUnits: 200
+  Range: 30
   UpdateCentre: 1
-  DisplayRays: 1
-  ForceRay: 1
+  ObjTrackRays: 0
+  DisplayRays: 0
+  ForceRay: 0
   SeperationRange: 10
   AlignmentRange: 20
   CohesionRange: 20
-  SeperationStr: 90
-  AlignmentStr: 250
-  CohesionStr: 100
+  SeperationStr: 15
+  AlignmentStr: 20
+  CohesionStr: 15
   CentrePos: {x: 0, y: 0, z: 0}
   TargetStr: 10
   ForwardThrust: 150
@@ -74,9 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnit: {fileID: 1184994859053323525, guid: 66a742ec95d736d459da8a2de622c338, type: 3}
-  TestSpawn: 0
-  EnableSpawn: 1
-  checkRadius: 5
+  EnableSpawn: 0
   minRot: {x: 0, y: 0, z: 0}
   maxRot: {x: 0, y: 0, z: 0}
   spawnPeriod: 1
