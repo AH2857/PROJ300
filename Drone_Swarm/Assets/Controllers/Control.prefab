@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2007088630286142775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5562763360415243994}
+  - component: {fileID: 5378453640705059469}
+  - component: {fileID: 5921097819339509906}
+  m_Layer: 0
+  m_Name: Control
+  m_TagString: RedUnit
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5562763360415243994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007088630286142775}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1455437, y: 24.4236, z: -62.274918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5378453640705059469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007088630286142775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b6e130365d28a84b92a9f9edf2bb8d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ManagedUnits: RedUnit
+  ObjTrackRays: 1
+  Range: 20
+  UpdateCentre: 1
+  DisplayRays: 1
+  ForceRay: 1
+  SeperationRange: 10
+  AlignmentRange: 20
+  CohesionRange: 20
+  SeperationStr: 90
+  AlignmentStr: 250
+  CohesionStr: 100
+  CentrePos: {x: 0, y: 0, z: 0}
+  TargetStr: 10
+  ForwardThrust: 150
+  ContMotion: 0
+--- !u!114 &5921097819339509906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007088630286142775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc80ff74be5db154abfe4945af88a3be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnUnit: {fileID: 1184994859053323525, guid: 66a742ec95d736d459da8a2de622c338, type: 3}
+  TestSpawn: 0
+  EnableSpawn: 1
+  checkRadius: 5
+  minRot: {x: 0, y: 0, z: 0}
+  maxRot: {x: 0, y: 0, z: 0}
+  spawnPeriod: 1

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - RedUnit
+  - RedUnitManager
   layers:
   - Default
   - TransparentFX
