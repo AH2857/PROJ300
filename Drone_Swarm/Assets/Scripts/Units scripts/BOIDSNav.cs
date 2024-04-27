@@ -137,7 +137,7 @@ public class BOIDSNav : MonoBehaviour
     {
         
         UnitRigidbody = GetComponentInParent<Rigidbody>();                              // get reference to unit's rigidibody that interprets physics interactions
-        ControlRef = GameObject.Find(CurControl).GetComponent<SwarmManager>();           // get reference to Unit manager that allows updating of Unit's heading function parameters
+        ControlRef = GameObject.Find(CurControl).GetComponent<SwarmManager>();          // get reference to Unit manager that allows updating of Unit's heading function parameters
         UnitTypeTag = ControlRef.ManagedUnits;                                          // Set ally tag for units to be the same as that of its controller       
 
         Debug.DrawRay(transform.position, transform.forward);
@@ -146,9 +146,9 @@ public class BOIDSNav : MonoBehaviour
         NumFuncs = 0;
         headingVector = Vector3.zero;
         headingVector += Seperation(ControlRef.SeperationRange, ControlRef.SeperationStr);                      // 50 75
-        headingVector += Alignment(UnitTypeTag, ControlRef.AlignmentRange, ControlRef.AlignmentStr);           // 150 75
-        headingVector += Cohesion(UnitTypeTag, ControlRef.CohesionRange, ControlRef.CohesionStr);             // 200 100
-        headingVector += TargetPosition(ControlRef.CentrePos, ControlRef.TargetStr);    // 150
+        headingVector += Alignment(UnitTypeTag, ControlRef.AlignmentRange, ControlRef.AlignmentStr);            // 150 75
+        headingVector += Cohesion(UnitTypeTag, ControlRef.CohesionRange, ControlRef.CohesionStr);               // 200 100
+        headingVector += TargetPosition(ControlRef.CentrePos, ControlRef.TargetStr);                            // 150
 
         // divide heading vector by number of functions called to create an average 
         if (NumFuncs > 0)
