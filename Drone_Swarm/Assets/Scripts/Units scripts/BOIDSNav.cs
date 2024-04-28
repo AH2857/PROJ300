@@ -158,8 +158,8 @@ public class BOIDSNav : MonoBehaviour
 
 
         if (ControlRef.ContMotion) { headingVector = Vector3.Normalize(headingVector); }
-        Debug.Log(headingVector);
-        Debug.DrawRay(transform.position, headingVector, Color.white);
+        //Debug.Log(headingVector);
+        if (ControlRef.ForceRay) { Debug.DrawRay(transform.position, headingVector, Color.white); }
         UnitRigidbody.AddForce(headingVector * ControlRef.ForwardThrust * Time.deltaTime);
     }
 }

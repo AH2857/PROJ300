@@ -15,8 +15,9 @@ public class Spawner : MonoBehaviour
     Vector3 randRot;
 
     // Timer, between spawns
-    public float spawnPeriod = 1;
+    public float spawnPeriod;
     float spawnCountdown;
+    bool SpawnComplete = false;
 
     bool SingleSpawn(bool spawnEnabled)
     {
@@ -24,24 +25,18 @@ public class Spawner : MonoBehaviour
         {
             randRot = new Vector3(Random.Range(minRot.x, maxRot.x), Random.Range(minRot.y, maxRot.y), Random.Range(minRot.z, maxRot.z));
             Instantiate(spawnUnit, transform.position, Quaternion.FromToRotation(Vector3.up, randRot));   // spawn unit with random roataion within limits
-            return true;                            // check succeeded, return true;            
-        }
-        else if (!spawnEnabled)
-        {
-            return false;                               // spawn disabled, return false;
+            return true;                                // check succeeded, return true;            
         }
         else
         {
-            Debug.LogError("Error, unknown input of spawnEnabled to func Single Spawn: ");
-            Debug.Log(spawnEnabled);
-            return false; // ERROR
+            return false;                               // spawn disabled, return false;
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if(spawnPeriod < 1) { spawnPeriod = 1; }
+        if(spawnPeriod < 0.5) { spawnPeriod = 0.5f; }
         spawnCountdown = spawnPeriod;
     }
 
@@ -58,8 +53,12 @@ public class Spawner : MonoBehaviour
             SingleSpawn(EnableSpawn);
             spawnCountdown = spawnPeriod;
             unitCount++;
+            Debug.Log(unitCount);
         }
-
+        else if((spawnCountdown <= 0)&&(!SpawnComplete))
+        {
+            Debug.Log("Spawning Complete");
+            SpawnComplete = true;
+        } 
     }
-
 }
