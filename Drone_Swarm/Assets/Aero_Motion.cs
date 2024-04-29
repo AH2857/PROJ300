@@ -108,11 +108,11 @@ public class Aero_Motion : MonoBehaviour
         switch (bankStage)
         {
             case 0:
-                Debug.Log(bankStage);
+                //Debug.Log(bankStage);
                 break;
 
             case 1:
-                Debug.Log(bankStage);
+                //Debug.Log(bankStage);
                 if (roll(20, targAngZ, transform.rotation.z, zAngleTol))    // check if at intended z angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
                 {
                     bankStage = 2;                                          // if true: set case = 2
@@ -120,7 +120,7 @@ public class Aero_Motion : MonoBehaviour
                 break;
 
             case 2:
-                Debug.Log(bankStage);
+                //Debug.Log(bankStage);
                 if (pitch(5, targAngX, transform.rotation.x, xAngleTol))    // check if at intended x angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
                 {
                     //bankStage = 3;                                          // if true: set case = 3
@@ -129,7 +129,7 @@ public class Aero_Motion : MonoBehaviour
                 break;
 
             case 3:
-                Debug.Log(bankStage);
+                //Debug.Log(bankStage);
                 if (roll(20, 0, transform.rotation.z, zAngleTol))           // check if at intended z angle(0),
                 {
                     bankStage = 0;                                          // if true: bankStage = 0

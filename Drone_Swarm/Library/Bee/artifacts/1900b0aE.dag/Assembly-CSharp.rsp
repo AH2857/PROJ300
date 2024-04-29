@@ -348,6 +348,7 @@
 "Assets/Aero_Motion.cs"
 "Assets/BOIDSNav.cs"
 "Assets/DirIndicator.cs"
+"Assets/FPS.cs"
 "Assets/ObjectTracker2.cs"
 "Assets/Old Files/Assets/Components/Sensors/greg.cs"
 "Assets/Old Files/Assets/Environment Setup/Walls.cs"
