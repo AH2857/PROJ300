@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countPeriod: 5
+  fps: 0
 --- !u!4 &1016944421
 Transform:
   m_ObjectHideFlags: 0
@@ -566,11 +567,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5378453640705059469, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}
       propertyPath: Range
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5378453640705059469, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}
       propertyPath: MaxUnits
-      value: 300
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5378453640705059469, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}
       propertyPath: RotSpeed
@@ -593,11 +594,19 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5378453640705059469, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}
+      propertyPath: ObjTrackRays
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378453640705059469, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}
       propertyPath: ForwardThrust
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5378453640705059469, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}
       propertyPath: SeperationStr
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378453640705059469, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}
+      propertyPath: SeperationRange
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5562763360415243994, guid: 9a24c9c5be127b14596caf8568b6ff6b, type: 3}

@@ -21,9 +21,7 @@ public class BOIDSNav : MonoBehaviour
     // Sum the distance vectors of all other objects within "Seperation range", relative to the Unit.
     // The seperation vector faces in the opposite direction to the sum vector, and is scaled by the SepStrength
 
-    //int SepMaxRange = 50;   // Seperation Range
-    //int SepStrength = 100;   // Seperation Strength, percentage out of 100%
-    Vector3 Seperation(int SepMaxRange, int SepStrength)
+    Vector3 Seperation(int SepMaxRange, int SepStrength)    // Seperation Range,  Seperation Strength, percentage out of 100%   
     {
         Vector3 SepVector = Vector3.zero;       // Initialise Seperation vector as 0,0,0
         int ObjCount = 0;
@@ -52,9 +50,9 @@ public class BOIDSNav : MonoBehaviour
     // attempt to match velocity (direction and speed in each axis) with other "ally" units within alignment range, ignoring obstacles or other objects
     // the resultant vector of all units within range is then scaled by alignStrength and returned
 
-    //string AllyTag;            // Tag of type of unit to match velocity with, set to its own unit type whenever Alignment is called
-    //int AlignMaxRange = 200;   // Alignment Range
-    //int AlignStrength = 10;    // Alignment Strength, % out of 100
+    //string AllyTag, Tag of type of unit to match velocity with, set to its own unit type whenever Alignment is called
+    //Alignment Range
+    //Alignment Strength, % out of 100
 
     Vector3 Alignment(string AllyTag, int AlignMaxRange, int AlignStrength)
     {
@@ -86,11 +84,7 @@ public class BOIDSNav : MonoBehaviour
     // using the sensor's position data of Ally units within a set range, calculate the centroid of all those units
     // the cohesion vector should point towards this position
 
-    //string AllyTag;
-    //int CohereMaxRange = 200;    // Max Cohesion range
-    //int CohereStrength = 10;   // Cohesion strength, % out of 100
-
-    Vector3 Cohesion(string AllyTag, int CohereMaxRange, int CohereStrength)
+    Vector3 Cohesion(string AllyTag, int CohereMaxRange, int CohereStrength)    // string AllyTag, Max Cohesion range, Cohesion strength, % out of 100
     {
         Vector3 CohereVector = Vector3.zero;
         int AllyCount = 0;
