@@ -23,7 +23,7 @@ public class Aero_Motion : MonoBehaviour
     float rotateTorqCalc(int locTargAng, float locCurAng, int rollStr, float AngTol) // local Target Angle, local Current Angle, local roll strength (1), Angle accuracy tolerance
     {
         int RollDir = 0;
-        //if ((locCurAng - locTargAng) == 0) 
+        
         if ((locCurAng - locTargAng) > (-AngTol) && (locCurAng - locTargAng) < (AngTol))
         { 
             RollDir = 0; 
