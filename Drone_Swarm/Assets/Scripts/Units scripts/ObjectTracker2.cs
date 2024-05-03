@@ -96,7 +96,7 @@ public class ObjectTracker2 : MonoBehaviour
             RaycastHit hit;                                                             // raycast hit data
             
             Vector3 RaycastDir = Vector3.Normalize(VecTowObj) * ControlRef.Range;       // Create vector in direction of target, with length equal detection range
-            if (ControlRef.ObjTrackRays) { Debug.DrawRay(transform.position, RaycastDir, Color.blue); }
+            //if (ControlRef.ObjTrackRays) { Debug.DrawRay(transform.position, RaycastDir, Color.blue); }
             
             if (Physics.Raycast(transform.position, VecTowObj, out hit, ControlRef.Range, RaycastIgnores) && (NumSavedObj < MaxSavedObj))   // if detects the object, and there is room in SavedObjects array
             {
