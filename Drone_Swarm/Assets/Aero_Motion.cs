@@ -52,7 +52,7 @@ public class Aero_Motion : MonoBehaviour
     bool roll(int rollStr, int tAng, float cAng, float Tol)     // returns bool representing whether roll torque is required
     {
         float reqTorq;                                          // Required torque
-        reqTorq = rotateTorqCalc(tAng, cAng, rollStr, Tol);     // Calculate required torque to apply to execute intended 
+        reqTorq = rotateTorqCalc(tAng, cAng, rollStr, Tol);     // Calculate required torque to apply to execute intended roll
         if (reqTorq == 0)
         {
             // pilot torque remains unmodified
@@ -69,7 +69,7 @@ public class Aero_Motion : MonoBehaviour
     bool pitch(int pitchStr, int tAng, float cAng, float Tol)
     {
         float reqTorq;                                          // Required torque
-        reqTorq = rotateTorqCalc(tAng, cAng, pitchStr, Tol);    // Calculate required torque to apply to execute intended 
+        reqTorq = rotateTorqCalc(tAng, cAng, pitchStr, Tol);    // Calculate required torque to apply to execute intended pitch 
         if (reqTorq == 0)
         {
             // pilot torque remains unmodified
@@ -123,8 +123,7 @@ public class Aero_Motion : MonoBehaviour
                 //Debug.Log(bankStage);
                 if (pitch(5, targAngX, transform.rotation.x, xAngleTol))    // check if at intended x angle, Yes: move to next stage of banking turn on next update, NO: calculate required torque to apply at end of frame
                 {
-                    //bankStage = 3;                                          // if true: set case = 3
-                    bankStage = 0;
+                    bankStage = 3;                                          // if true: set case = 3
                 }
                 break;
 
